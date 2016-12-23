@@ -60,8 +60,9 @@ function! s:RacerGetPrefixCol(base)
     let cmd = g:racer_cmd." prefix ".line(".")." ".col." ".b:tmpfname
     let res = system(cmd)
     let prefixline = split(res, "\\n")[0]
-    let startcol = split(prefixline[7:], ",")[0]
-    return startcol
+    " if there is no prefix, [2] will get the added "" instead
+    let prefix = add(split(prefixline[7:], ","), "")[2]
+    return col-strlen(prefix)
 endfunction
 
 function! s:RacerGetExpCompletions(base)
